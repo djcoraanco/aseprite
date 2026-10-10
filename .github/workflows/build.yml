@@ -38,6 +38,7 @@ jobs:
           -DENABLE_TESTS=OFF \
           -DENABLE_SCRIPTING=on \
           -DENABLE_CCACHE=off \
+          -DUSE_SHARED_CURL=OFF \
           -DLAF_BACKEND=skia \
           -DSKIA_DIR=$(realpath skia) \
           -DSKIA_LIBRARY_DIR=$(realpath skia/out/Release-x64)
@@ -53,6 +54,8 @@ jobs:
         mkdir -p release-pkg
         cp build/bin/aseprite.exe release-pkg/
         cp -r build/bin/data release-pkg/
+        # Copiar cualquier DLL generada en la carpeta bin (OpenSSL, etc.)
+        cp build/bin/*.dll release-pkg/ 2>/dev/null || true
 
     - name: Upload Aseprite Binary
       uses: actions/upload-artifact@v4
